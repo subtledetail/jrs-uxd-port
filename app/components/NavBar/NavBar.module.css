@@ -1,45 +1,47 @@
+/* Figma node: 474:109 */
 .nav {
   position: fixed;
-  top: 0;
+  top: -64px;
   left: 0;
   width: 100%;
   height: 64px;
   z-index: 100;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 0 16px;
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
-  transform: translateY(-64px);
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+  border-bottom: 1px solid rgba(255,255,255,0.2);
 }
 
 .light {
-  background: rgba(255, 255, 255, 0.52);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+  background: rgba(255, 255, 255, 0.01);
   color: #010101;
 }
 
 .dark {
-  background: rgba(0, 0, 0, 0.52);
-  border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+  background: rgba(10, 10, 10, 0.01);
   color: #ffffff;
 }
 
 .wordmark,
 .menuTrigger {
-  font-family: var(--font-ui);
-  font-size: 16px;
+  position: absolute;
+  top: 26px;
+  font-family: 'neue-haas-grotesk-text', system-ui, sans-serif;
   font-weight: 700;
-  letter-spacing: 0.32px;
+  font-size: 16px;
+  line-height: 16px;
+  letter-spacing: 2px;
   text-transform: uppercase;
-  text-decoration: none;
   color: inherit;
 }
 
+.wordmark {
+  left: 16px;
+}
+
 .menuTrigger {
+  right: 16px;
+  text-align: right;
   background: none;
   border: none;
   cursor: pointer;
-  color: inherit;
 }

@@ -30,6 +30,7 @@ export default function SplashSequence() {
     // Reduced motion: skip animation, fire splashComplete immediately
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
       container.style.display = 'none';
+      (window as unknown as Record<string, unknown>).__splashComplete = true;
       window.dispatchEvent(new Event('splashComplete'));
       return;
     }
@@ -75,6 +76,7 @@ export default function SplashSequence() {
 
       // t=7.2: dispatch splashComplete, hide container
       tl.call(() => {
+        (window as unknown as Record<string, unknown>).__splashComplete = true;
         window.dispatchEvent(new Event('splashComplete'));
         if (containerRef.current) {
           containerRef.current.style.display = 'none';
@@ -83,6 +85,7 @@ export default function SplashSequence() {
     } catch (e) {
       console.error('SplashSequence animation error:', e);
       container.style.display = 'none';
+      (window as unknown as Record<string, unknown>).__splashComplete = true;
       window.dispatchEvent(new Event('splashComplete'));
     }
 

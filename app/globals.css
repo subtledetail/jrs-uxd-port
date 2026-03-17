@@ -42,5 +42,4 @@
 body {
   background: var(--bg-primary);
   font-family: var(--font-ui);
-  overflow-x: hidden;
 }

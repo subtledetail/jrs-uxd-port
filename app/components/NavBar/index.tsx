@@ -1,6 +1,7 @@
+/* Figma node: 474:109 */
 'use client';
 
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState, useCallback } from 'react';
 import gsap from 'gsap';
 import styles from './NavBar.module.css';
 
@@ -8,113 +9,108 @@ interface NavBarProps {
   onMenuOpen: () => void;
 }
 
-export default function NavBar({ onMenuOpen }: NavBarProps) {
-  const navRef = useRef<HTMLElement>(null);
-  const menuBtnRef = useRef<HTMLButtonElement>(null);
-  const [variant, setVariant] = useState<'light' | 'dark'>('light');
-  const prevScrollY = useRef(0);
-  const navShown = useRef(false);
+const themeStyles = {
+  light: { background: 'rgba(255, 255, 255, 0.25)', color: '#010101' },
+  dark: { background: 'rgba(10, 10, 10, 0.25)', color: '#ffffff' },
+};
 
-  // Start hidden above viewport until splashComplete fires
-  useEffect(() => {
-    try {
-      gsap.set(navRef.current, { yPercent: -100 });
-    } catch (e) {
-      console.error('NavBar gsap.set error:', e);
+export default function NavBar({ onMenuOpen }: NavBarProps) {
+  const navRef = useRef<HTMLDivElement>(null);
+  const [theme, setTheme] = useState<'dark' | 'light'>('light');
+  const prevScrollY = useRef(0);
+  const navVisible = useRef(false);
+  const currentThemeRef = useRef<'dark' | 'light'>('light');
+
+  const detectTheme = useCallback(() => {
+    const sections = document.querySelectorAll('[data-nav-theme]');
+    let detected: 'dark' | 'light' = 'light';
+    sections.forEach((section) => {
+      const rect = section.getBoundingClientRect();
+      if (rect.top <= 64 && rect.bottom > 0) {
+        detected = (section as HTMLElement).dataset.navTheme as 'dark' | 'light';
+      }
+    });
+    if (detected !== currentThemeRef.current) {
+      currentThemeRef.current = detected;
+      setTheme(detected);
+      if (navRef.current) {
+        gsap.to(navRef.current, { ...themeStyles[detected], duration: 0.3 });
+      }
     }
   }, []);
 
-  // Splash complete → reveal nav
+  // Show nav: immediately if splash done, otherwise on splashComplete or 1.5s fallback
   useEffect(() => {
-    const onSplashComplete = () => {
-      try {
-        navShown.current = true;
-        gsap.to(navRef.current, { y: 0, duration: 0.5, ease: 'expo.out' });
+    const alreadyDone = (window as unknown as Record<string, unknown>).__splashComplete;
 
-        // Menu button nudge 0.5s after entrance
-        setTimeout(() => {
-          try {
-            gsap.to(menuBtnRef.current, {
-              rotateX: 360,
-              duration: 0.55,
-              ease: 'power2.inOut',
-              onComplete: () => {
-                gsap.set(menuBtnRef.current, { rotateX: 0 });
-              },
-            });
-          } catch (e) {
-            console.error('NavBar nudge error:', e);
-          }
-        }, 500);
-      } catch (e) {
-        console.error('NavBar splashComplete error:', e);
-      }
+    if (alreadyDone) {
+      gsap.set(navRef.current, { top: 0 });
+      navVisible.current = true;
+      setTimeout(detectTheme, 100);
+      return;
+    }
+
+    gsap.set(navRef.current, { top: -64 });
+
+    const showNav = () => {
+      if (navVisible.current) return;
+      navVisible.current = true;
+      gsap.to(navRef.current, {
+        top: 0,
+        duration: 0.6,
+        ease: 'expo.out',
+        delay: 0.5,
+        onComplete: () => { setTimeout(detectTheme, 100); },
+      });
     };
 
-    window.addEventListener('splashComplete', onSplashComplete);
-    return () => window.removeEventListener('splashComplete', onSplashComplete);
-  }, []);
+    window.addEventListener('splashComplete', showNav);
+    const fallback = setTimeout(showNav, 1500);
+    return () => {
+      window.removeEventListener('splashComplete', showNav);
+      clearTimeout(fallback);
+    };
+  }, [detectTheme]);
 
-  // Scroll hide/show
+  // Scroll hide/show + theme detection
   useEffect(() => {
     const handleScroll = () => {
-      try {
-        const currentY = window.scrollY;
+      const currentY = window.scrollY;
 
-        if (currentY > prevScrollY.current && currentY > 80) {
-          if (navShown.current) {
-            gsap.to(navRef.current, { y: -64, duration: 0.45, ease: 'expo.out' });
-            navShown.current = false;
-          }
-        } else if (currentY < prevScrollY.current) {
-          if (!navShown.current) {
-            gsap.to(navRef.current, { y: 0, duration: 0.55, ease: 'expo.out' });
-            navShown.current = true;
-          }
+      if (currentY > prevScrollY.current && currentY > 80) {
+        if (navVisible.current) {
+          gsap.to(navRef.current, { top: -64, duration: 0.45, ease: 'expo.out' });
+          navVisible.current = false;
         }
-
-        prevScrollY.current = currentY;
-      } catch (e) {
-        console.error('NavBar scroll error:', e);
+      } else if (currentY < prevScrollY.current) {
+        if (!navVisible.current) {
+          gsap.to(navRef.current, { top: 0, duration: 0.55, ease: 'expo.out' });
+          navVisible.current = true;
+        }
       }
+
+      prevScrollY.current = currentY;
+      detectTheme();
     };
 
     window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
-
-  // IntersectionObserver for variant switching
-  useEffect(() => {
-    const darkSections = document.querySelectorAll('[data-nav-variant="dark"]');
-    const lightSections = document.querySelectorAll('[data-nav-variant="light"]');
-
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            const v = (entry.target as HTMLElement).dataset.navVariant as 'light' | 'dark';
-            setVariant(v);
-          }
-        });
-      },
-      { rootMargin: '-64px 0px 0px 0px', threshold: 0 }
-    );
-
-    darkSections.forEach((s) => observer.observe(s));
-    lightSections.forEach((s) => observer.observe(s));
-
-    return () => observer.disconnect();
-  }, []);
+  }, [detectTheme]);
 
   return (
-    <nav
+    <div
       ref={navRef}
-      className={`${styles.nav} ${variant === 'dark' ? styles.dark : styles.light}`}
+      className={`${styles.nav} ${theme === 'dark' ? styles.dark : styles.light}`}
+      style={{
+        backdropFilter: 'blur(8px) saturate(140%)',
+        WebkitBackdropFilter: 'blur(8px) saturate(140%)',
+        background: themeStyles[theme].background,
+      }}
     >
-      <span className={styles.wordmark}>JRS</span>
-      <button ref={menuBtnRef} className={styles.menuTrigger} onClick={onMenuOpen}>
-        MENU
+      <span className={styles.wordmark}>JRS_UXD</span>
+      <button className={styles.menuTrigger} onClick={onMenuOpen}>
+        [ MENU ]
       </button>
-    </nav>
+    </div>
   );
 }
