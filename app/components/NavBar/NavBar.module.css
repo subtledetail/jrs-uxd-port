@@ -1,0 +1,45 @@
+.nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 64px;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 16px;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  transform: translateY(-64px);
+}
+
+.light {
+  background: rgba(255, 255, 255, 0.52);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+  color: #010101;
+}
+
+.dark {
+  background: rgba(0, 0, 0, 0.52);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+  color: #ffffff;
+}
+
+.wordmark,
+.menuTrigger {
+  font-family: var(--font-ui);
+  font-size: 16px;
+  font-weight: 700;
+  letter-spacing: 0.32px;
+  text-transform: uppercase;
+  text-decoration: none;
+  color: inherit;
+}
+
+.menuTrigger {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: inherit;
+}

@@ -1,0 +1,55 @@
+/* Figma node 435:1521 */
+.container {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  overflow: hidden;
+  width: 100%;
+  height: 100dvh;
+}
+
+.column {
+  position: absolute;
+  top: 0;
+  width: 20%;
+  height: 100%;
+  background: #0a0a0a;
+}
+
+.col1 { left: 0; }
+.col2 { left: 20%; }
+.col3 { left: 40%; }
+.col4 { left: 60%; }
+.col5 { left: 80%; }
+
+.gridLine {
+  position: absolute;
+  top: 0;
+  width: 1px;
+  height: 100%;
+  background: #ffffff;
+  opacity: 0.12;
+  z-index: 2;
+}
+
+.line1 { left: 20%; }
+.line2 { left: 40%; }
+.line3 { left: 60%; }
+.line4 { left: 80%; }
+
+.letter {
+  position: absolute;
+  left: 50%;
+  font-family: 'neue-haas-grotesk-text', system-ui, sans-serif;
+  font-weight: 700;
+  font-size: 68px;
+  line-height: 52px;
+  letter-spacing: -1px;
+  text-transform: uppercase;
+  text-align: center;
+  color: #ffffff;
+  white-space: nowrap;
+}
+
+.letterTop { top: 218px; }
+.letterBottom { top: 326px; }

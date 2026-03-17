@@ -1,0 +1,53 @@
+.hero {
+  width: 375px;
+  height: 489px;
+  position: relative;
+  overflow: hidden;
+  background:
+    radial-gradient(ellipse at 20% 50%, rgba(249, 112, 104, 0.15) 0%, transparent 60%),
+    radial-gradient(ellipse at 80% 60%, rgba(156, 90, 255, 0.1) 0%, transparent 60%),
+    var(--bg-primary);
+}
+
+.staticLine {
+  position: absolute;
+  left: 16px;
+  top: 245px;
+  width: 343px;
+  font-family: var(--font-ui);
+  font-size: 34px;
+  line-height: 42px;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: #010101;
+}
+
+.variableLines {
+  position: absolute;
+  left: 16px;
+  top: 287px;
+  width: 343px;
+}
+
+.variableLine {
+  font-family: var(--font-ui);
+  font-size: 34px;
+  line-height: 42px;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: #010101;
+}
+
+.markAnchor {
+  position: relative;
+  display: inline;
+}
+
+.mark {
+  position: absolute;
+  left: calc(100% + 8px);
+  bottom: 0;
+  transform-origin: center center;
+  width: 8px;
+  height: 8px;
+}

@@ -1,0 +1,53 @@
+.musings {
+  width: 375px;
+  height: 1690px;
+  background: #ffffff;
+  position: relative;
+}
+
+.gridLine {
+  position: absolute;
+  top: 0;
+  width: 1px;
+  height: 100%;
+  background: rgba(229, 229, 229, 0.4);
+}
+
+.line1 { left: 75px; }
+.line2 { left: 150px; }
+.line3 { left: 225px; }
+.line4 { left: 300px; }
+
+.title {
+  position: absolute;
+  left: 16px;
+  top: 52px;
+  font-family: var(--font-display);
+  font-size: 66px;
+  font-weight: 400;
+  color: #010101;
+}
+
+.postCard {
+  position: absolute;
+  left: 16px;
+  right: 16px;
+}
+
+.postTitle {
+  font-family: var(--font-ui);
+  font-size: 20px;
+  font-weight: 700;
+  color: #010101;
+  margin-bottom: 8px;
+}
+
+.postDate {
+  font-family: var(--font-ui);
+  font-size: 14px;
+  color: var(--text-muted);
+}
+
+.post1 { top: 180px; }
+.post2 { top: 340px; }
+.post3 { top: 500px; }

@@ -1,0 +1,79 @@
+.overlay {
+  position: fixed;
+  inset: 0;
+  background: #0a0a0a;
+  z-index: 200;
+  opacity: 0;
+  pointer-events: none;
+  clip-path: circle(0% at 359px 32px);
+}
+
+.overlayOpen {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.closeBtn {
+  position: absolute;
+  right: 16px;
+  top: 64px;
+  font-family: var(--font-ui);
+  font-size: 16px;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: #ffffff;
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+.navItem {
+  position: absolute;
+  left: 16px;
+  font-family: var(--font-display);
+  font-size: 74px;
+  line-height: 82px;
+  letter-spacing: -0.37px;
+  color: #ffffff;
+  mix-blend-mode: overlay;
+  text-decoration: none;
+  opacity: 0;
+}
+
+.navWork { top: 217px; }
+.navAbout { top: 315px; }
+.navMusings { top: 413px; }
+
+.divider {
+  position: absolute;
+  left: 16px;
+  right: 16px;
+  height: 1px;
+  background: rgba(255, 255, 255, 0.15);
+}
+
+.div1 { top: 307px; }
+.div2 { top: 405px; }
+.div3 { top: 652px; }
+
+.email {
+  position: absolute;
+  left: 16px;
+  top: 600px;
+  font-family: var(--font-ui);
+  font-size: 16px;
+  color: #ffffff;
+  text-decoration: none;
+  opacity: 0;
+}
+
+.linkedin {
+  position: absolute;
+  left: 16px;
+  top: 664px;
+  font-family: var(--font-ui);
+  font-size: 32px;
+  color: var(--neutral-300);
+  text-decoration: none;
+  opacity: 0;
+}

@@ -1,0 +1,32 @@
+.video {
+  width: 375px;
+  height: 281px;
+  background: #666666;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.label {
+  font-family: var(--font-ui);
+  text-transform: uppercase;
+  color: #ffffff;
+  opacity: 0.4;
+  font-size: 16px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+}
+
+.gridLine {
+  position: absolute;
+  top: 0;
+  width: 1px;
+  height: 100%;
+  background: rgba(255, 255, 255, 0.22);
+}
+
+.line1 { left: 75px; }
+.line2 { left: 150px; }
+.line3 { left: 225px; }
+.line4 { left: 300px; }
